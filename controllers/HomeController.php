@@ -3,7 +3,7 @@ class HomeController {
     public function index() {
         session_start();
         if (isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/dashboard");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/dashboard");
             exit();
         }
 

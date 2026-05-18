@@ -7,6 +7,7 @@ class Costurera {
     public $nombre_completo;
     public $telefono;
     public $fecha_ingreso;
+    public $tipo_maquina;
     public $activo;
 
     public function __construct($db) {
@@ -14,7 +15,7 @@ class Costurera {
     }
 
     public function leerTodas() {
-        $query = "SELECT id_costurera, nombre_completo, telefono, fecha_ingreso, activo 
+        $query = "SELECT id_costurera, nombre_completo, telefono, fecha_ingreso, tipo_maquina, activo 
                   FROM " . $this->table_name . " 
                   WHERE activo = 1 ORDER BY nombre_completo ASC";
         $stmt = $this->conn->prepare($query);
@@ -24,17 +25,19 @@ class Costurera {
 
     public function crear() {
         $query = "INSERT INTO " . $this->table_name . " 
-                  (nombre_completo, telefono, fecha_ingreso, activo) 
-                  VALUES (:nombre, :telefono, :fecha, 1)";
+                  (nombre_completo, telefono, fecha_ingreso, tipo_maquina, activo) 
+                  VALUES (:nombre, :telefono, :fecha, :tipo_maquina, 1)";
         $stmt = $this->conn->prepare($query);
 
         $this->nombre_completo = htmlspecialchars(strip_tags($this->nombre_completo));
         $this->telefono = htmlspecialchars(strip_tags($this->telefono));
         $this->fecha_ingreso = htmlspecialchars(strip_tags($this->fecha_ingreso));
+        $this->tipo_maquina = htmlspecialchars(strip_tags($this->tipo_maquina));
 
         $stmt->bindParam(":nombre", $this->nombre_completo);
         $stmt->bindParam(":telefono", $this->telefono);
         $stmt->bindParam(":fecha", $this->fecha_ingreso);
+        $stmt->bindParam(":tipo_maquina", $this->tipo_maquina);
 
         try {
             if($stmt->execute()) {
@@ -47,7 +50,7 @@ class Costurera {
     }
 
     public function obtenerPorId($id) {
-        $query = "SELECT id_costurera, nombre_completo, telefono, fecha_ingreso, activo 
+        $query = "SELECT id_costurera, nombre_completo, telefono, fecha_ingreso, tipo_maquina, activo 
                   FROM " . $this->table_name . " 
                   WHERE id_costurera = ? AND activo = 1 LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
@@ -60,6 +63,7 @@ class Costurera {
             $this->nombre_completo = $row['nombre_completo'];
             $this->telefono = $row['telefono'];
             $this->fecha_ingreso = $row['fecha_ingreso'];
+            $this->tipo_maquina = $row['tipo_maquina'];
             $this->activo = $row['activo'];
             return true;
         }
@@ -68,18 +72,20 @@ class Costurera {
 
     public function actualizar() {
         $query = "UPDATE " . $this->table_name . " 
-                  SET nombre_completo = :nombre, telefono = :telefono, fecha_ingreso = :fecha 
+                  SET nombre_completo = :nombre, telefono = :telefono, fecha_ingreso = :fecha, tipo_maquina = :tipo_maquina 
                   WHERE id_costurera = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->nombre_completo = htmlspecialchars(strip_tags($this->nombre_completo));
         $this->telefono = htmlspecialchars(strip_tags($this->telefono));
         $this->fecha_ingreso = htmlspecialchars(strip_tags($this->fecha_ingreso));
+        $this->tipo_maquina = htmlspecialchars(strip_tags($this->tipo_maquina));
         $this->id_costurera = htmlspecialchars(strip_tags($this->id_costurera));
 
         $stmt->bindParam(':nombre', $this->nombre_completo);
         $stmt->bindParam(':telefono', $this->telefono);
         $stmt->bindParam(':fecha', $this->fecha_ingreso);
+        $stmt->bindParam(':tipo_maquina', $this->tipo_maquina);
         $stmt->bindParam(':id', $this->id_costurera);
 
         try {

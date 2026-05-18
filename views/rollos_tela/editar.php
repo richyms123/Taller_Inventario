@@ -8,7 +8,7 @@
         </div>
 
         <div class="card">
-            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela/actualizar/" . $this->rolloTela->id_rollo; ?>" method="POST">
+            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela/actualizar/" . $this->rolloTela->id_rollo; ?>" method="POST">
                 <div class="form-group">
                     <label>Tipo de Tela</label>
                     <div style="position: relative;">
@@ -37,21 +37,42 @@
                         <label>Rollos Disponibles Actualmente</label>
                         <div style="position: relative;">
                             <i class="fa-solid fa-check-to-slot" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
-                            <input type="number" name="rollos_disponibles" class="form-control" style="padding-left: 2.5rem;" required min="0" step="1" value="<?php echo htmlspecialchars($this->rolloTela->rollos_disponibles); ?>">
+                            <input type="number" id="rollos_disponibles" name="rollos_disponibles" class="form-control" style="padding-left: 2.5rem;" required min="0" max="<?php echo htmlspecialchars($this->rolloTela->cantidad_inicial); ?>" step="1" value="<?php echo htmlspecialchars($this->rolloTela->rollos_disponibles); ?>">
                         </div>
                     </div>
                 </div>
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const inputInicial = document.querySelector('input[name="cantidad_inicial"]');
+                    const inputDisponibles = document.getElementById('rollos_disponibles');
+                    
+                    inputInicial.addEventListener('input', function() {
+                        inputDisponibles.max = this.value;
+                        if(parseInt(inputDisponibles.value) > parseInt(this.value)) {
+                            inputDisponibles.value = this.value;
+                        }
+                    });
+                    
+                    inputDisponibles.addEventListener('input', function() {
+                        if(parseInt(this.value) > parseInt(inputInicial.value)) {
+                            this.value = inputInicial.value;
+                        }
+                    });
+                });
+                </script>
 
                 <div class="form-group">
                     <label>Fecha de Entrada</label>
                     <div style="position: relative;">
                         <i class="fa-solid fa-calendar-day" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
-                        <input type="date" name="fecha_ingreso" class="form-control" style="padding-left: 2.5rem;" required value="<?php echo htmlspecialchars($this->rolloTela->fecha_ingreso); ?>">
+                        <input type="date" name="fecha_ingreso" class="form-control" style="padding-left: 2.5rem; background-color: var(--bg-main); color: var(--text-muted); cursor: not-allowed;" required readonly value="<?php echo date('Y-m-d'); ?>">
                     </div>
+                    <small style="color: var(--text-muted); display: block; margin-top: 5px;">La fecha se asigna automáticamente al momento actual.</small>
                 </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2.5rem;">
-                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
+                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
                         <i class="fa-solid fa-xmark"></i> Cancelar
                     </a>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">

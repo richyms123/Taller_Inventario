@@ -7,6 +7,7 @@ class Producto {
     public $nombre_producto;
     public $descripcion;
     public $precio_maquila;
+    public $tipo_maquina;
     public $activo;
 
     public function __construct($db) {
@@ -15,7 +16,7 @@ class Producto {
 
     // Leer todos los productos activos
     public function leerTodos() {
-        $query = "SELECT id_producto, nombre_producto, descripcion, precio_maquila, activo 
+        $query = "SELECT id_producto, nombre_producto, descripcion, precio_maquila, tipo_maquina, activo 
                   FROM " . $this->table_name . " 
                   WHERE activo = 1 ORDER BY nombre_producto ASC";
         $stmt = $this->conn->prepare($query);
@@ -28,6 +29,7 @@ class Producto {
         $this->nombre_producto = htmlspecialchars(strip_tags($this->nombre_producto));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
         $this->precio_maquila = htmlspecialchars(strip_tags($this->precio_maquila));
+        $this->tipo_maquina = htmlspecialchars(strip_tags($this->tipo_maquina));
 
         // 1. Verificar si ya existe un producto con ese nombre
         $check_query = "SELECT id_producto, activo FROM " . $this->table_name . " WHERE nombre_producto = :nombre";
@@ -43,12 +45,13 @@ class Producto {
             } else {
                 // Existe pero fue "eliminado" (activo = 0). Lo reactivamos y actualizamos.
                 $update_query = "UPDATE " . $this->table_name . " 
-                                 SET descripcion = :descripcion, precio_maquila = :precio, activo = 1 
+                                 SET descripcion = :descripcion, precio_maquila = :precio, tipo_maquina = :tipo_maquina, activo = 1 
                                  WHERE id_producto = :id";
                 $update_stmt = $this->conn->prepare($update_query);
                 
                 $update_stmt->bindParam(':descripcion', $this->descripcion);
                 $update_stmt->bindParam(':precio', $this->precio_maquila);
+                $update_stmt->bindParam(':tipo_maquina', $this->tipo_maquina);
                 $update_stmt->bindParam(':id', $row['id_producto']);
                 
                 try {
@@ -61,13 +64,14 @@ class Producto {
 
         // 2. Si no existe, crearlo normalmente
         $query = "INSERT INTO " . $this->table_name . " 
-                  (nombre_producto, descripcion, precio_maquila, activo) 
-                  VALUES (:nombre, :descripcion, :precio, 1)";
+                  (nombre_producto, descripcion, precio_maquila, tipo_maquina, activo) 
+                  VALUES (:nombre, :descripcion, :precio, :tipo_maquina, 1)";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":nombre", $this->nombre_producto);
         $stmt->bindParam(":descripcion", $this->descripcion);
         $stmt->bindParam(":precio", $this->precio_maquila);
+        $stmt->bindParam(":tipo_maquina", $this->tipo_maquina);
 
         try {
             return $stmt->execute();
@@ -78,7 +82,7 @@ class Producto {
 
     // Obtener un solo producto por ID
     public function obtenerPorId($id) {
-        $query = "SELECT id_producto, nombre_producto, descripcion, precio_maquila, activo 
+        $query = "SELECT id_producto, nombre_producto, descripcion, precio_maquila, tipo_maquina, activo 
                   FROM " . $this->table_name . " 
                   WHERE id_producto = ? AND activo = 1 LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
@@ -91,6 +95,7 @@ class Producto {
             $this->nombre_producto = $row['nombre_producto'];
             $this->descripcion = $row['descripcion'];
             $this->precio_maquila = $row['precio_maquila'];
+            $this->tipo_maquina = $row['tipo_maquina'];
             $this->activo = $row['activo'];
             return true;
         }
@@ -100,18 +105,20 @@ class Producto {
     // Actualizar producto
     public function actualizar() {
         $query = "UPDATE " . $this->table_name . " 
-                  SET nombre_producto = :nombre, descripcion = :descripcion, precio_maquila = :precio 
+                  SET nombre_producto = :nombre, descripcion = :descripcion, precio_maquila = :precio, tipo_maquina = :tipo_maquina 
                   WHERE id_producto = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->nombre_producto = htmlspecialchars(strip_tags($this->nombre_producto));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
         $this->precio_maquila = htmlspecialchars(strip_tags($this->precio_maquila));
+        $this->tipo_maquina = htmlspecialchars(strip_tags($this->tipo_maquina));
         $this->id_producto = htmlspecialchars(strip_tags($this->id_producto));
 
         $stmt->bindParam(':nombre', $this->nombre_producto);
         $stmt->bindParam(':descripcion', $this->descripcion);
         $stmt->bindParam(':precio', $this->precio_maquila);
+        $stmt->bindParam(':tipo_maquina', $this->tipo_maquina);
         $stmt->bindParam(':id', $this->id_producto);
 
         try {

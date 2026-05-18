@@ -1,20 +1,20 @@
 <?php
 require_once 'models/Asignacion.php';
 require_once 'models/Costurera.php';
-require_once 'models/Producto.php';
+require_once 'models/TipoTela.php';
 require_once 'models/RolloTela.php';
 
 class AsignacionesController {
     private $db;
     private $asignacion;
     private $costurera;
-    private $producto;
+    private $tipoTela;
     private $rolloTela;
 
     public function __construct() {
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
             exit();
         }
 
@@ -22,7 +22,7 @@ class AsignacionesController {
         $this->db = $database->getConnection();
         $this->asignacion = new Asignacion($this->db);
         $this->costurera = new Costurera($this->db);
-        $this->producto = new Producto($this->db);
+        $this->tipoTela = new TipoTela($this->db);
         $this->rolloTela = new RolloTela($this->db);
     }
 
@@ -38,8 +38,7 @@ class AsignacionesController {
     public function crear() {
         // Cargar listas para los selectores
         $costureras = $this->costurera->leerTodas()->fetchAll();
-        $productos = $this->producto->leerTodos()->fetchAll();
-        $rollos = $this->rolloTela->leerTodos()->fetchAll();
+        $tipos_tela = $this->tipoTela->leerTodos()->fetchAll();
 
         require_once 'views/layouts/header.php';
         require_once 'views/asignaciones/crear.php';
@@ -48,66 +47,69 @@ class AsignacionesController {
 
     public function guardar() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->asignacion->id_costurera = $_POST['id_costurera'];
-            $this->asignacion->id_producto = $_POST['id_producto'];
-            $this->asignacion->id_rollo = $_POST['id_rollo'];
-            $this->asignacion->cantidad_asignada = $_POST['cantidad_asignada'];
-            $this->asignacion->fecha_asignacion = $_POST['fecha_asignacion'];
+            $id_costurera = $_POST['id_costurera'];
+            $id_tipo_tela = $_POST['id_tipo_tela'];
+            $cantidad_requerida = isset($_POST['rollos_utilizados']) ? (int)$_POST['rollos_utilizados'] : 0;
+            $fecha_asignacion = $_POST['fecha_asignacion'];
 
-            if ($this->asignacion->crear()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=creado");
-            } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=error");
+            if ($cantidad_requerida <= 0) {
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones/crear?msg=error");
+                exit();
             }
-        }
-    }
 
-    public function editar($id = null) {
-        if ($id == null) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones");
-            exit();
-        }
+            try {
+                // Iniciar transacción
+                $this->db->beginTransaction();
 
-        if ($this->asignacion->obtenerPorId($id)) {
-            $costureras = $this->costurera->leerTodas()->fetchAll();
-            $productos = $this->producto->leerTodos()->fetchAll();
-            $rollos = $this->rolloTela->leerTodos()->fetchAll();
+                // Buscar rollos antiguos con disponibilidad
+                $query = "SELECT id_rollo, rollos_disponibles FROM rollos_tela 
+                          WHERE id_tipo_tela = :id_tipo_tela AND rollos_disponibles > 0 
+                          ORDER BY fecha_ingreso ASC, id_rollo ASC";
+                $stmt = $this->db->prepare($query);
+                $stmt->bindParam(':id_tipo_tela', $id_tipo_tela);
+                $stmt->execute();
+                
+                $rollos_candidatos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            require_once 'views/layouts/header.php';
-            require_once 'views/asignaciones/editar.php';
-            require_once 'views/layouts/footer.php';
-        } else {
-            echo "Asignación no encontrada.";
-        }
-    }
+                $cantidad_restante = $cantidad_requerida;
 
-    public function actualizar($id) {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->asignacion->id_asignacion = $id;
-            $this->asignacion->id_costurera = $_POST['id_costurera'];
-            $this->asignacion->id_producto = $_POST['id_producto'];
-            $this->asignacion->id_rollo = $_POST['id_rollo'];
-            $this->asignacion->cantidad_asignada = $_POST['cantidad_asignada'];
-            $this->asignacion->fecha_asignacion = $_POST['fecha_asignacion'];
-            $this->asignacion->estado = $_POST['estado'];
+                foreach ($rollos_candidatos as $rollo) {
+                    if ($cantidad_restante <= 0) break;
 
-            if ($this->asignacion->actualizar()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=actualizado");
-            } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=error");
-            }
-        }
-    }
+                    $disponible = (int)$rollo['rollos_disponibles'];
+                    $usar = min($cantidad_restante, $disponible);
 
-    public function eliminar($id) {
-        if ($id != null) {
-            $resultado = $this->asignacion->eliminar($id);
-            if ($resultado === true) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=eliminado");
-            } elseif ($resultado === 'en_uso') {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=error_en_uso");
-            } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=error");
+                    // 1. Descontar del inventario
+                    $nuevo_disponible = $disponible - $usar;
+                    $updateStmt = $this->db->prepare("UPDATE rollos_tela SET rollos_disponibles = :nd WHERE id_rollo = :id");
+                    $updateStmt->bindParam(':nd', $nuevo_disponible);
+                    $updateStmt->bindParam(':id', $rollo['id_rollo']);
+                    $updateStmt->execute();
+
+                    // 2. Crear la asignación
+                    $this->asignacion->id_costurera = $id_costurera;
+                    $this->asignacion->id_rollo = $rollo['id_rollo'];
+                    $this->asignacion->rollos_utilizados = $usar;
+                    $this->asignacion->cantidad_asignada = $usar;
+                    $this->asignacion->fecha_asignacion = $fecha_asignacion;
+                    $this->asignacion->crear();
+
+                    $cantidad_restante -= $usar;
+                }
+
+                // Si no se cubrió toda la cantidad requerida, lanzamos error y hacemos rollback
+                if ($cantidad_restante > 0) {
+                    $this->db->rollBack();
+                    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones/crear?msg=stock_insuficiente");
+                    exit();
+                }
+
+                $this->db->commit();
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones?msg=creado");
+
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones?msg=error");
             }
         }
     }

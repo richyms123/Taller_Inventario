@@ -12,7 +12,7 @@
             </div>
         <?php endif; ?>
 
-        <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login/autenticar"; ?>" method="POST">
+        <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login/autenticar"; ?>" method="POST">
             <div class="form-group">
                 <label>Usuario</label>
                 <div style="position: relative;">

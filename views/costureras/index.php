@@ -4,7 +4,7 @@
             <h1>Catálogo de Personal</h1>
             <p>Gestiona el registro de costureras del taller.</p>
         </div>
-        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras/crear"; ?>" class="btn btn-primary">
+        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras/crear"; ?>" class="btn btn-primary">
             <i class="fa-solid fa-user-plus"></i> Nueva Costurera
         </a>
     </div>
@@ -31,6 +31,7 @@
                 <tr>
                     <th style="width: 80px;">ID</th>
                     <th>Nombre Completo</th>
+                    <th>Tipo de Máquina</th>
                     <th>Teléfono</th>
                     <th>Fecha Ingreso</th>
                     <th style="text-align: right;">Acciones</th>
@@ -39,7 +40,7 @@
             <tbody>
                 <?php if (empty($costureras)): ?>
                     <tr>
-                        <td colspan="5" style="padding: 3rem; text-align: center; color: var(--text-muted);">
+                        <td colspan="6" style="padding: 3rem; text-align: center; color: var(--text-muted);">
                             <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"><i class="fa-solid fa-users-slash"></i></div>
                             No hay costureras registradas.
                         </td>
@@ -57,16 +58,23 @@
                                 </div>
                             </td>
                             <td>
+                                <?php if(isset($c['tipo_maquina']) && $c['tipo_maquina'] == 'Overlock'): ?>
+                                    <span style="background: #E0E7FF; color: #4338CA; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem;"><i class="fa-solid fa-gear"></i> Overlock</span>
+                                <?php else: ?>
+                                    <span style="background: #FCE7F3; color: #BE185D; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem;"><i class="fa-solid fa-gear"></i> Recta</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
                                 <span style="color: var(--text-muted);"><i class="fa-solid fa-phone" style="font-size: 0.85rem; margin-right: 5px;"></i> <?php echo htmlspecialchars($c['telefono'] ?? 'N/A'); ?></span>
                             </td>
                             <td>
                                 <span style="color: var(--text-muted);"><i class="fa-regular fa-calendar" style="font-size: 0.85rem; margin-right: 5px;"></i> <?php echo date("d/m/Y", strtotime($c['fecha_ingreso'])); ?></span>
                             </td>
                             <td style="text-align: right;">
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras/editar/" . $c['id_costurera']; ?>" class="btn-action edit" title="Editar">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras/editar/" . $c['id_costurera']; ?>" class="btn-action edit" title="Editar">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras/eliminar/" . $c['id_costurera']; ?>" class="btn-action delete" title="Dar de baja" onclick="return confirm('¿Estás seguro de que deseas dar de baja a este personal?');">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras/eliminar/" . $c['id_costurera']; ?>" class="btn-action delete" title="Dar de baja" onclick="return confirm('¿Estás seguro de que deseas dar de baja a este personal?');">
                                     <i class="fa-solid fa-user-minus"></i>
                                 </a>
                             </td>

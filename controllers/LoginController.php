@@ -26,14 +26,14 @@ class LoginController {
                 $_SESSION['nombre_completo'] = $usuario->nombre_completo;
                 $_SESSION['usuario'] = $usuario->usuario;
                 
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/dashboard");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/dashboard");
                 exit();
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login/index?error=1");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login/index?error=1");
                 exit();
             }
         } else {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
             exit();
         }
     }
@@ -43,7 +43,7 @@ class LoginController {
         session_start();
         session_unset();
         session_destroy();
-        header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
+        header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
         exit();
     }
 }

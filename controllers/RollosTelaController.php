@@ -10,7 +10,7 @@ class RollosTelaController {
     public function __construct() {
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
             exit();
         }
 
@@ -46,16 +46,16 @@ class RollosTelaController {
             $this->rolloTela->fecha_ingreso = $_POST['fecha_ingreso'];
 
             if ($this->rolloTela->crear()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela?msg=creado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela?msg=creado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela?msg=error");
             }
         }
     }
 
     public function editar($id = null) {
         if ($id == null) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela");
             exit();
         }
 
@@ -81,9 +81,9 @@ class RollosTelaController {
             $this->rolloTela->fecha_ingreso = $_POST['fecha_ingreso'];
 
             if ($this->rolloTela->actualizar()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela?msg=actualizado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela?msg=actualizado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela?msg=error");
             }
         }
     }
@@ -92,11 +92,11 @@ class RollosTelaController {
         if ($id != null) {
             $resultado = $this->rolloTela->eliminar($id);
             if ($resultado === true) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela?msg=eliminado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela?msg=eliminado");
             } elseif ($resultado === 'en_uso') {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela?msg=error_en_uso");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela?msg=error_en_uso");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela?msg=error");
             }
         }
     }

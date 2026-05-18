@@ -5,24 +5,27 @@ class TipoTela {
 
     public $id_tipo_tela;
     public $nombre_tela;
+    public $tipo_maquina;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
     public function leerTodos() {
-        $query = "SELECT id_tipo_tela, nombre_tela FROM " . $this->table_name . " ORDER BY nombre_tela ASC";
+        $query = "SELECT id_tipo_tela, nombre_tela, tipo_maquina FROM " . $this->table_name . " ORDER BY nombre_tela ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
     public function crear() {
-        $query = "INSERT INTO " . $this->table_name . " (nombre_tela) VALUES (:nombre)";
+        $query = "INSERT INTO " . $this->table_name . " (nombre_tela, tipo_maquina) VALUES (:nombre, :tipo_maquina)";
         $stmt = $this->conn->prepare($query);
 
         $this->nombre_tela = htmlspecialchars(strip_tags($this->nombre_tela));
+        $this->tipo_maquina = htmlspecialchars(strip_tags($this->tipo_maquina));
         $stmt->bindParam(":nombre", $this->nombre_tela);
+        $stmt->bindParam(":tipo_maquina", $this->tipo_maquina);
 
         try {
             return $stmt->execute();
@@ -32,7 +35,7 @@ class TipoTela {
     }
 
     public function obtenerPorId($id) {
-        $query = "SELECT id_tipo_tela, nombre_tela FROM " . $this->table_name . " WHERE id_tipo_tela = ? LIMIT 0,1";
+        $query = "SELECT id_tipo_tela, nombre_tela, tipo_maquina FROM " . $this->table_name . " WHERE id_tipo_tela = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();
@@ -41,19 +44,22 @@ class TipoTela {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->id_tipo_tela = $row['id_tipo_tela'];
             $this->nombre_tela = $row['nombre_tela'];
+            $this->tipo_maquina = $row['tipo_maquina'];
             return true;
         }
         return false;
     }
 
     public function actualizar() {
-        $query = "UPDATE " . $this->table_name . " SET nombre_tela = :nombre WHERE id_tipo_tela = :id";
+        $query = "UPDATE " . $this->table_name . " SET nombre_tela = :nombre, tipo_maquina = :tipo_maquina WHERE id_tipo_tela = :id";
         $stmt = $this->conn->prepare($query);
 
         $this->nombre_tela = htmlspecialchars(strip_tags($this->nombre_tela));
+        $this->tipo_maquina = htmlspecialchars(strip_tags($this->tipo_maquina));
         $this->id_tipo_tela = htmlspecialchars(strip_tags($this->id_tipo_tela));
 
         $stmt->bindParam(':nombre', $this->nombre_tela);
+        $stmt->bindParam(':tipo_maquina', $this->tipo_maquina);
         $stmt->bindParam(':id', $this->id_tipo_tela);
 
         try {

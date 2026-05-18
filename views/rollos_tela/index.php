@@ -4,7 +4,7 @@
             <h1>Inventario de Telas</h1>
             <p>Registra y consulta los rollos de tela físicos en el almacén.</p>
         </div>
-        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela/crear"; ?>" class="btn btn-primary">
+        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela/crear"; ?>" class="btn btn-primary">
             <i class="fa-solid fa-plus"></i> Registrar Rollo
         </a>
     </div>
@@ -76,10 +76,10 @@
                             </td>
                             <td><?php echo date("d/m/Y", strtotime($r['fecha_ingreso'])); ?></td>
                             <td style="text-align: right;">
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela/editar/" . $r['id_rollo']; ?>" class="btn-action edit" title="Ajustar Inventario">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela/editar/" . $r['id_rollo']; ?>" class="btn-action edit" title="Ajustar Inventario">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/rollos_tela/eliminar/" . $r['id_rollo']; ?>" class="btn-action delete" title="Eliminar Rollo" onclick="return confirm('¿Estás seguro de eliminar este rollo del inventario?');">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/rollos_tela/eliminar/" . $r['id_rollo']; ?>" class="btn-action delete" title="Eliminar Rollo" onclick="return confirm('¿Estás seguro de eliminar este rollo del inventario?');">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>

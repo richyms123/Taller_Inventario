@@ -8,7 +8,7 @@ class CosturerasController {
     public function __construct() {
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
             exit();
         }
 
@@ -37,9 +37,10 @@ class CosturerasController {
             $this->costurera->nombre_completo = $_POST['nombre_completo'];
             $this->costurera->telefono = $_POST['telefono'];
             $this->costurera->fecha_ingreso = $_POST['fecha_ingreso'];
+            $this->costurera->tipo_maquina = isset($_POST['tipo_maquina']) ? $_POST['tipo_maquina'] : 'Overlock';
 
             if ($this->costurera->crear()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras?msg=creado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras?msg=creado");
             } else {
                 echo "Error al registrar la costurera.";
             }
@@ -48,7 +49,7 @@ class CosturerasController {
 
     public function editar($id = null) {
         if ($id == null) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras");
             exit();
         }
 
@@ -67,9 +68,10 @@ class CosturerasController {
             $this->costurera->nombre_completo = $_POST['nombre_completo'];
             $this->costurera->telefono = $_POST['telefono'];
             $this->costurera->fecha_ingreso = $_POST['fecha_ingreso'];
+            $this->costurera->tipo_maquina = isset($_POST['tipo_maquina']) ? $_POST['tipo_maquina'] : 'Overlock';
 
             if ($this->costurera->actualizar()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras?msg=actualizado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras?msg=actualizado");
             } else {
                 echo "Error al actualizar los datos.";
             }
@@ -79,7 +81,7 @@ class CosturerasController {
     public function eliminar($id) {
         if ($id != null) {
             if ($this->costurera->eliminar($id)) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras?msg=eliminado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras?msg=eliminado");
             } else {
                 echo "Error al eliminar a la costurera.";
             }
