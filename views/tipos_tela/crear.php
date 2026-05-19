@@ -8,7 +8,7 @@
         </div>
 
         <div class="card">
-            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela/guardar"; ?>" method="POST">
+            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela/guardar"; ?>" method="POST">
                 <div class="form-group">
                     <label>Nombre de la Tela</label>
                     <div style="position: relative;">
@@ -31,7 +31,7 @@
                 </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2.5rem;">
-                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
+                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
                         <i class="fa-solid fa-xmark"></i> Cancelar
                     </a>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">

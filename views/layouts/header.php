@@ -9,7 +9,7 @@
     <!-- Cargar FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Cargar CSS principal -->
-    <link rel="stylesheet" href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/public/css/style.css?v=" . time(); ?>">
+    <link rel="stylesheet" href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/public/css/style.css?v=" . time(); ?>">
 </head>
 <body>
     <?php 
@@ -19,7 +19,7 @@
     }
     
     if(isset($_SESSION['id_usuario'])): 
-        $baseUrl = "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main";
+        $baseUrl = "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario";
     ?>
     <aside class="sidebar">
         <div class="sidebar-header">
@@ -31,7 +31,7 @@
         
         <div class="nav-menu">
             <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin: 10px 0 5px 15px;">General</div>
-            <a href="<?php echo $baseUrl; ?>/dashboard" class="nav-link <?php echo ($_SERVER['REQUEST_URI'] == '/Taller_Inventario-main/dashboard' || $_SERVER['REQUEST_URI'] == '/Taller_Inventario-main/dashboard/') ? 'active' : ''; ?>">
+            <a href="<?php echo $baseUrl; ?>/dashboard" class="nav-link <?php echo ($_SERVER['REQUEST_URI'] == '/Taller_Inventario/dashboard' || $_SERVER['REQUEST_URI'] == '/Taller_Inventario/dashboard/') ? 'active' : ''; ?>">
                 <i class="fa-solid fa-chart-pie" style="width: 20px;"></i> Dashboard
             </a>
             

@@ -8,7 +8,7 @@ class TiposTelaController {
     public function __construct() {
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
             exit();
         }
 
@@ -38,16 +38,16 @@ class TiposTelaController {
             $this->tipoTela->tipo_maquina = isset($_POST['tipo_maquina']) ? $_POST['tipo_maquina'] : 'Ambos';
 
             if ($this->tipoTela->crear()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela?msg=creado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela?msg=creado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela?msg=error_duplicado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela?msg=error_duplicado");
             }
         }
     }
 
     public function editar($id = null) {
         if ($id == null) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela");
             exit();
         }
 
@@ -67,9 +67,9 @@ class TiposTelaController {
             $this->tipoTela->tipo_maquina = isset($_POST['tipo_maquina']) ? $_POST['tipo_maquina'] : 'Ambos';
 
             if ($this->tipoTela->actualizar()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela?msg=actualizado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela?msg=actualizado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela?msg=error_duplicado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela?msg=error_duplicado");
             }
         }
     }
@@ -78,11 +78,11 @@ class TiposTelaController {
         if ($id != null) {
             $resultado = $this->tipoTela->eliminar($id);
             if ($resultado === true) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela?msg=eliminado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela?msg=eliminado");
             } elseif ($resultado === 'en_uso') {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela?msg=error_en_uso");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela?msg=error_en_uso");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela?msg=error");
             }
         }
     }

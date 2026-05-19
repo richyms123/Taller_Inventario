@@ -12,7 +12,7 @@ class EntregasController {
     public function __construct() {
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
             exit();
         }
 
@@ -55,9 +55,9 @@ class EntregasController {
             $this->entrega->cantidad_buenas = $_POST['piezas_buenas'];
 
             if ($this->entrega->crear()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas?msg=creado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas?msg=creado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas?msg=error");
             }
         }
     }

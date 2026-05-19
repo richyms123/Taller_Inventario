@@ -8,7 +8,7 @@
         </div>
 
         <div class="card">
-            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/defectos/guardar"; ?>" method="POST">
+            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/defectos/guardar"; ?>" method="POST">
                 
                 <div class="form-group">
                     <label>¿Qué producto salió defectuoso?</label>
@@ -44,7 +44,7 @@
                 </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2.5rem;">
-                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
+                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
                         <i class="fa-solid fa-xmark"></i> Cancelar
                     </a>
                     <button type="submit" class="btn btn-primary" style="background: #EF4444; border-color: #EF4444; width: 100%;">

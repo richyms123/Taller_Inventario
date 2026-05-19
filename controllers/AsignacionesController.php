@@ -14,7 +14,7 @@ class AsignacionesController {
     public function __construct() {
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
             exit();
         }
 
@@ -53,7 +53,7 @@ class AsignacionesController {
             $fecha_asignacion = $_POST['fecha_asignacion'];
 
             if ($cantidad_requerida <= 0) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones/crear?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones/crear?msg=error");
                 exit();
             }
 
@@ -100,16 +100,16 @@ class AsignacionesController {
                 // Si no se cubrió toda la cantidad requerida, lanzamos error y hacemos rollback
                 if ($cantidad_restante > 0) {
                     $this->db->rollBack();
-                    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones/crear?msg=stock_insuficiente");
+                    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones/crear?msg=stock_insuficiente");
                     exit();
                 }
 
                 $this->db->commit();
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones?msg=creado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=creado");
 
             } catch (Exception $e) {
                 $this->db->rollBack();
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones?msg=error");
             }
         }
     }

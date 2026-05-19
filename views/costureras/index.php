@@ -4,7 +4,7 @@
             <h1>Catálogo de Personal</h1>
             <p>Gestiona el registro de costureras del taller.</p>
         </div>
-        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras/crear"; ?>" class="btn btn-primary">
+        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras/crear"; ?>" class="btn btn-primary">
             <i class="fa-solid fa-user-plus"></i> Nueva Costurera
         </a>
     </div>
@@ -71,10 +71,10 @@
                                 <span style="color: var(--text-muted);"><i class="fa-regular fa-calendar" style="font-size: 0.85rem; margin-right: 5px;"></i> <?php echo date("d/m/Y", strtotime($c['fecha_ingreso'])); ?></span>
                             </td>
                             <td style="text-align: right;">
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras/editar/" . $c['id_costurera']; ?>" class="btn-action edit" title="Editar">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras/editar/" . $c['id_costurera']; ?>" class="btn-action edit" title="Editar">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/costureras/eliminar/" . $c['id_costurera']; ?>" class="btn-action delete" title="Dar de baja" onclick="return confirm('¿Estás seguro de que deseas dar de baja a este personal?');">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/costureras/eliminar/" . $c['id_costurera']; ?>" class="btn-action delete" title="Dar de baja" onclick="return confirm('¿Estás seguro de que deseas dar de baja a este personal?');">
                                     <i class="fa-solid fa-user-minus"></i>
                                 </a>
                             </td>

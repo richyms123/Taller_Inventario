@@ -10,7 +10,7 @@ class DefectosController {
     public function __construct() {
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
             exit();
         }
 
@@ -37,9 +37,9 @@ class DefectosController {
             $this->defecto->fecha_registro = $_POST['fecha_registro'];
 
             if ($this->defecto->crear()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas?msg=defecto_creado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas?msg=defecto_creado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas?msg=error");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas?msg=error");
             }
         }
     }

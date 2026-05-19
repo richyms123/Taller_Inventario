@@ -5,7 +5,7 @@
             <p>Conoce exactamente cuántas piezas se fabricaron y cuántas mermas se registraron.</p>
         </div>
         
-        <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/reportes"; ?>" method="GET" style="display: flex; gap: 10px; align-items: center; background: white; padding: 10px 15px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/reportes"; ?>" method="GET" style="display: flex; gap: 10px; align-items: center; background: white; padding: 10px 15px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
             <label style="margin: 0; font-weight: 600; color: var(--text-main);">Fecha:</label>
             <input type="date" name="fecha" value="<?php echo htmlspecialchars($fechaFiltro); ?>" class="form-control" style="width: auto; padding: 0.5rem 1rem;" onchange="this.form.submit()">
         </form>

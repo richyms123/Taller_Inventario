@@ -4,7 +4,7 @@
             <h1>Asignaciones de Tela</h1>
             <p>El "cuaderno digital": registra qué tela le entregaste a cada costurera.</p>
         </div>
-        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/asignaciones/crear"; ?>" class="btn btn-primary">
+        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/asignaciones/crear"; ?>" class="btn btn-primary">
             <i class="fa-solid fa-clipboard-list"></i> Nueva Asignación
         </a>
     </div>

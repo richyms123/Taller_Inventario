@@ -4,7 +4,7 @@
             <h1>Catálogo de Productos</h1>
             <p>Gestiona los morrales, chalecos y otros productos.</p>
         </div>
-        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos/crear"; ?>" class="btn btn-primary">
+        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos/crear"; ?>" class="btn btn-primary">
             <i class="fa-solid fa-plus"></i> Nuevo Producto
         </a>
     </div>
@@ -65,10 +65,10 @@
                                 </span>
                             </td>
                             <td style="text-align: right;">
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos/editar/" . $p['id_producto']; ?>" class="btn-action edit" title="Editar">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos/editar/" . $p['id_producto']; ?>" class="btn-action edit" title="Editar">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos/eliminar/" . $p['id_producto']; ?>" class="btn-action delete" title="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos/eliminar/" . $p['id_producto']; ?>" class="btn-action delete" title="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>

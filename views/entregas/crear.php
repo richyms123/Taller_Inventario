@@ -8,7 +8,7 @@
         </div>
 
         <div class="card">
-            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas/guardar"; ?>" method="POST">
+            <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas/guardar"; ?>" method="POST">
                 
                 <div class="form-group" style="margin-bottom: 1.5rem; background: #FEF2F2; padding: 10px 15px; border-radius: 8px; border: 1px solid #FECACA;">
                     <label style="display: flex; align-items: center; gap: 10px; margin: 0; cursor: pointer; color: #DC2626; font-weight: 600;">
@@ -71,7 +71,7 @@
                 </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2.5rem;">
-                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
+                    <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas"; ?>" class="btn" style="background: var(--border); color: var(--text-main); width: 100%;">
                         <i class="fa-solid fa-xmark"></i> Cancelar
                     </a>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">

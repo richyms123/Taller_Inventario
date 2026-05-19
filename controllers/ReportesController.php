@@ -1,22 +1,15 @@
 <?php
 class ReportesController {
     public function index() {
-        header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/dashboard");
+        header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/dashboard");
         exit();
     }
 
-    public function semanal() {
-        session_start();
-        if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
-            exit();
-        }
-
+    private function getDatosSemanales($semanaFiltro) {
         require_once 'config/database.php';
         $database = new Database();
         $db = $database->getConnection();
 
-        $semanaFiltro = isset($_GET['semana']) ? $_GET['semana'] : date('Y-\WW');
         $dto = new DateTime();
         $dto->setISODate((int)substr($semanaFiltro, 0, 4), (int)substr($semanaFiltro, 6));
         $fechaInicio = $dto->format('Y-m-d'); // Lunes
@@ -86,7 +79,6 @@ class ReportesController {
             } elseif ($r['tipo_maquina'] == 'Recta') {
                 $reporteRecta[] = $r;
             }
-            // Ignoramos arreglos para las tablas de costureras
         }
 
         $totalSemanaBuenas = $totalSemanaBuenas - $totalSemanaMalas;
@@ -114,7 +106,7 @@ class ReportesController {
         // Mapear fecha a índice de día (0 = Lunes, 5 = Sábado)
         foreach ($graficaRaw as $g) {
             $fechaObj = new DateTime($g['fecha']);
-            $diaSemana = (int)$fechaObj->format('N') - 1; // 1 (Lunes) -> 0, 6 (Sábado) -> 5
+            $diaSemana = (int)$fechaObj->format('N') - 1;
             if ($diaSemana >= 0 && $diaSemana <= 5) {
                 if ($g['tipo_maquina'] == 'Overlock') {
                     $dataOverlock[$diaSemana] += $g['total'];
@@ -124,9 +116,75 @@ class ReportesController {
             }
         }
 
+        return [
+            'totalSemanaBuenas' => $totalSemanaBuenas,
+            'totalSemanaMalas' => $totalSemanaMalas,
+            'reporteOverlock' => $reporteOverlock,
+            'reporteRecta' => $reporteRecta,
+            'labels' => $labels,
+            'dataOverlock' => $dataOverlock,
+            'dataRecta' => $dataRecta
+        ];
+    }
+
+    public function semanal() {
+        session_start();
+        if (!isset($_SESSION['id_usuario'])) {
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
+            exit();
+        }
+
+        $semanaFiltro = isset($_GET['semana']) ? $_GET['semana'] : date('Y-\WW');
+        $datos = $this->getDatosSemanales($semanaFiltro);
+        
+        extract($datos);
+
         require_once 'views/layouts/header.php';
         require_once 'views/reportes/semanal.php';
         require_once 'views/layouts/footer.php';
+    }
+
+    public function exportarXML() {
+        session_start();
+        if (!isset($_SESSION['id_usuario'])) {
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
+            exit();
+        }
+
+        $semanaFiltro = isset($_GET['semana']) ? $_GET['semana'] : date('Y-\WW');
+        $datos = $this->getDatosSemanales($semanaFiltro);
+
+        // Crear objeto XML
+        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><reporte_semanal/>');
+        $xml->addChild('semana', htmlspecialchars($semanaFiltro));
+        
+        $totales = $xml->addChild('totales');
+        $totales->addChild('piezas_buenas', $datos['totalSemanaBuenas']);
+        $totales->addChild('defectuosas_mermas', $datos['totalSemanaMalas']);
+
+        $overlock = $xml->addChild('produccion_overlock');
+        foreach ($datos['reporteOverlock'] as $r) {
+            $registro = $overlock->addChild('registro');
+            $registro->addChild('costurera', htmlspecialchars($r['nombre_completo']));
+            $registro->addChild('producto', htmlspecialchars($r['nombre_producto']));
+            $registro->addChild('buenas', $r['total_buenas']);
+        }
+
+        $recta = $xml->addChild('produccion_recta');
+        foreach ($datos['reporteRecta'] as $r) {
+            $registro = $recta->addChild('registro');
+            $registro->addChild('costurera', htmlspecialchars($r['nombre_completo']));
+            $registro->addChild('producto', htmlspecialchars($r['nombre_producto']));
+            $registro->addChild('buenas', $r['total_buenas']);
+        }
+
+        // Configurar cabeceras para forzar descarga
+        header('Content-Type: application/xml; charset=utf-8');
+        header('Content-Disposition: attachment; filename="reporte_semanal_' . $semanaFiltro . '.xml"');
+        
+        // Imprimir XML
+        echo $xml->asXML();
+        exit();
     }
 }
 ?>

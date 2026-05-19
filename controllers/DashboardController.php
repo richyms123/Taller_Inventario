@@ -3,7 +3,7 @@ class DashboardController {
     public function index() {
         session_start();
         
-        $baseUrl = "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main";
+        $baseUrl = "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario";
 
         // Verificar si el usuario está logueado, si no, redirigirlo al login
         if (!isset($_SESSION['id_usuario'])) {

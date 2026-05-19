@@ -5,9 +5,13 @@
             <p>Evalúa el rendimiento de la semana agrupado por Overlock y Recta.</p>
         </div>
         
-        <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/reportes/semanal"; ?>" method="GET" style="display: flex; gap: 10px; align-items: center; background: white; padding: 10px 15px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        <form action="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/reportes/semanal"; ?>" method="GET" style="display: flex; gap: 10px; align-items: center; background: white; padding: 10px 15px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
             <label style="margin: 0; font-weight: 600; color: var(--text-main);">Semana:</label>
             <input type="week" name="semana" value="<?php echo htmlspecialchars($semanaFiltro); ?>" class="form-control" style="width: auto; padding: 0.5rem 1rem;" onchange="this.form.submit()" required>
+            <div style="width: 1px; height: 30px; background: var(--border); margin: 0 5px;"></div>
+            <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/reportes/exportarXML?semana=" . urlencode($semanaFiltro); ?>" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                <i class="fa-solid fa-file-export"></i> Exportar XML
+            </a>
         </form>
     </div>
 

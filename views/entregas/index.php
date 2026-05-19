@@ -5,10 +5,10 @@
             <p>Registra las piezas terminadas por las costureras.</p>
         </div>
         <div style="display: flex; gap: 10px;">
-            <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/defectos/crear"; ?>" class="btn" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA;">
+            <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/defectos/crear"; ?>" class="btn" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA;">
                 <i class="fa-solid fa-triangle-exclamation"></i> Registrar Mermas
             </a>
-            <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/entregas/crear"; ?>" class="btn btn-primary">
+            <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/entregas/crear"; ?>" class="btn btn-primary">
                 <i class="fa-solid fa-truck-ramp-box"></i> Registrar Entrega
             </a>
         </div>

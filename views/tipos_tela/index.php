@@ -4,7 +4,7 @@
             <h1>Catálogo de Telas</h1>
             <p>Gestiona los tipos de tela (materia prima) del taller.</p>
         </div>
-        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela/crear"; ?>" class="btn btn-primary">
+        <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela/crear"; ?>" class="btn btn-primary">
             <i class="fa-solid fa-plus"></i> Nuevo Tipo
         </a>
     </div>
@@ -63,10 +63,10 @@
                                 </div>
                             </td>
                             <td style="text-align: right;">
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela/editar/" . $t['id_tipo_tela']; ?>" class="btn-action edit" title="Editar">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela/editar/" . $t['id_tipo_tela']; ?>" class="btn-action edit" title="Editar">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/tipos_tela/eliminar/" . $t['id_tipo_tela']; ?>" class="btn-action delete" title="Eliminar definitivamente" onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo de tela?');">
+                                <a href="<?php echo "http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/tipos_tela/eliminar/" . $t['id_tipo_tela']; ?>" class="btn-action delete" title="Eliminar definitivamente" onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo de tela?');">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>

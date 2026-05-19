@@ -9,7 +9,7 @@ class ProductosController {
         // Verificar sesión en todas las rutas de este controlador
         session_start();
         if (!isset($_SESSION['id_usuario'])) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/login");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/login");
             exit();
         }
 
@@ -44,9 +44,9 @@ class ProductosController {
             $this->producto->tipo_maquina = isset($_POST['tipo_maquina']) ? $_POST['tipo_maquina'] : 'Ambos';
 
             if ($this->producto->crear()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos?msg=creado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos?msg=creado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos?msg=error_duplicado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos?msg=error_duplicado");
             }
         }
     }
@@ -54,7 +54,7 @@ class ProductosController {
     // Mostrar formulario para editar
     public function editar($id = null) {
         if ($id == null) {
-            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos");
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos");
             exit();
         }
 
@@ -78,9 +78,9 @@ class ProductosController {
             $this->producto->tipo_maquina = isset($_POST['tipo_maquina']) ? $_POST['tipo_maquina'] : 'Ambos';
 
             if ($this->producto->actualizar()) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos?msg=actualizado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos?msg=actualizado");
             } else {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos?msg=error_duplicado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos?msg=error_duplicado");
             }
         }
     }
@@ -89,7 +89,7 @@ class ProductosController {
     public function eliminar($id) {
         if ($id != null) {
             if ($this->producto->eliminar($id)) {
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario-main/productos?msg=eliminado");
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/Taller_Inventario/productos?msg=eliminado");
             } else {
                 echo "Error al eliminar el producto.";
             }
